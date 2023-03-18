@@ -1,7 +1,5 @@
 import User from "@/backend/models/user.model";
 import DBConnect from "@/backend/utils/dbConnect";
-import { async } from "./../../../backend/services/user.service";
-const dataControllers = require("../../../backend/controllers/user.controller");
 export default async function handler(req, res) {
   DBConnect();
   const { method } = req;
@@ -63,7 +61,7 @@ export default async function handler(req, res) {
       }
       break;
     default:
-      //   res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
+      res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
       res.status(405).end(`Method ${method} is not allowed `);
       break;
   }

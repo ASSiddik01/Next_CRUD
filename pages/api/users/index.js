@@ -1,7 +1,5 @@
 import User from "@/backend/models/user.model";
 import DBConnect from "@/backend/utils/dbConnect";
-import { async } from "./../../../backend/services/user.service";
-const dataControllers = require("../../../backend/controllers/user.controller");
 export default async function handler(req, res) {
   DBConnect();
   const { method } = req;
@@ -9,7 +7,6 @@ export default async function handler(req, res) {
     case "GET":
       try {
         const result = await User.find({});
-
         res.status(200).json({
           success: true,
           message: `Data get successfully`,
