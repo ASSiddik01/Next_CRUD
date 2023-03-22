@@ -2,8 +2,13 @@ import { useReducer } from "react";
 import { BiBrush } from "react-icons/bi";
 import Success from "./success";
 import Bug from "./bug";
+import { useUpdateUserMutation } from "@/redux/features/api/apiSlice";
+import { useSelector } from "react-redux";
 
 const formReducer = (state, event) => {
+  const user = useSelector((state) => state.form.user);
+
+  console.log(user);
   return {
     ...state,
     [event.target.name]: event.target.value,
@@ -12,15 +17,11 @@ const formReducer = (state, event) => {
 
 export default function UpdateUserForm() {
   const [formData, setFormData] = useReducer(formReducer, {});
-
+  const [updateUser, { isLoading, isSuccess, data }] = useUpdateUserMutation();
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (Object.keys(formData).length == 0)
-      return console.log("Don't have Form Data");
-    console.log(formData);
+    updateUser(id, formData);
   };
-
-  if (Object.keys(formData).length > 0) return <Bug message={"Error"}></Bug>;
 
   return (
     <form className="grid lg:grid-cols-2 w-4/6 gap-4" onSubmit={handleSubmit}>
@@ -28,18 +29,18 @@ export default function UpdateUserForm() {
         <input
           type="text"
           onChange={setFormData}
-          name="firstname"
+          name="name"
           className="border w-full px-5 py-3 focus:outline-none rounded-md"
-          placeholder="FirstName"
+          placeholder="Name"
         />
       </div>
       <div className="input-type">
         <input
           type="text"
           onChange={setFormData}
-          name="lastname"
+          name="avatar"
           className="border w-full px-5 py-3 focus:outline-none rounded-md"
-          placeholder="LastName"
+          placeholder="Image"
         />
       </div>
       <div className="input-type">
@@ -100,7 +101,7 @@ export default function UpdateUserForm() {
       </div>
 
       <button className="flex justify-center text-md w-2/6 bg-yellow-400 text-white px-4 py-2 border rounded-md hover:bg-gray-50 hover:border-green-500 hover:text-green-500">
-        Update{" "}
+        Update
         <span className="px-1">
           <BiBrush size={24}></BiBrush>
         </span>

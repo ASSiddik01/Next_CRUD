@@ -2,6 +2,7 @@ import { useReducer } from "react";
 import { BiPlus } from "react-icons/bi";
 import Success from "./success";
 import Bug from "./bug";
+import { usePostUserMutation } from "@/redux/features/api/apiSlice";
 
 const formReducer = (state, event) => {
   return {
@@ -12,15 +13,11 @@ const formReducer = (state, event) => {
 
 export default function AddUserForm() {
   const [formData, setFormData] = useReducer(formReducer, {});
-
+  const [postUser, { isLoading, isSuccess, data }] = usePostUserMutation();
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (Object.keys(formData).length == 0)
-      return console.log("Don't have Form Data");
-    console.log(formData);
+    postUser(formData);
   };
-
-  if (Object.keys(formData).length > 0) return <Bug message={"Error"}></Bug>;
 
   return (
     <form className="grid lg:grid-cols-2 w-4/6 gap-4" onSubmit={handleSubmit}>
@@ -28,18 +25,18 @@ export default function AddUserForm() {
         <input
           type="text"
           onChange={setFormData}
-          name="firstname"
+          name="name"
           className="border w-full px-5 py-3 focus:outline-none rounded-md"
-          placeholder="FirstName"
+          placeholder="Name"
         />
       </div>
       <div className="input-type">
         <input
           type="text"
           onChange={setFormData}
-          name="lastname"
+          name="avatar"
           className="border w-full px-5 py-3 focus:outline-none rounded-md"
-          placeholder="LastName"
+          placeholder="Image"
         />
       </div>
       <div className="input-type">

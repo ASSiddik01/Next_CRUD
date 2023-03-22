@@ -1,0 +1,5 @@
+install - yarn add @reduxjs/toolkit react-redux
+create redux folder
+create store
+create slice
+call reducer in store
